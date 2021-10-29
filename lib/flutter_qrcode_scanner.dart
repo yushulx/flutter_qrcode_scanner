@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_qrcode_scanner/dynamsoft_barcode.dart';
+import 'package:flutter_camera_qrcode_scanner/dynamsoft_barcode.dart';
 
 /// Callback function for scanner view creation.
 typedef ScannerViewCreatedCallback = void Function(ScannerViewController);

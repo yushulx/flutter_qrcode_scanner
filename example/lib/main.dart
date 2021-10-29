@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:flutter_qrcode_scanner/flutter_qrcode_scanner.dart';
-import 'package:flutter_qrcode_scanner/dynamsoft_barcode.dart';
+import 'package:flutter_camera_qrcode_scanner/flutter_qrcode_scanner.dart';
+import 'package:flutter_camera_qrcode_scanner/dynamsoft_barcode.dart';
 
 void main() {
   runApp(const MyApp());
@@ -78,8 +78,7 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       this.controller = controller;
     });
-    controller.setLicense(
-        'LICENSE-KEY');
+    controller.setLicense('LICENSE-KEY');
     controller.startScanning(); // auto start scanning
     controller.scannedDataStream.listen((results) {
       setState(() {
