@@ -7,10 +7,11 @@ A lightweight Flutter QR code scanner plugin implemented with [Dynamsoft Camera 
 
 ## Build Configuration
 
-Change the minimum Android sdk version to 21 (or higher) in your android/app/build.gradle file.
+Change the minimum Android sdk version to 21 (or higher) and change the compile sdk version to 31 (or higher) in your `android/app/build.gradle` file.
 
 ```gradle
 minSdkVersion 21
+compileSdkVersion 31
 ```
 
 ## Try Real-time QR Code Scanning
