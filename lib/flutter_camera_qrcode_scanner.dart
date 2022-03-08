@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -30,12 +31,21 @@ class _ScannerViewState extends State<ScannerView> {
         'com.dynamsoft.flutter_camera_qrcode_scanner/nativeview';
     final Map<String, dynamic> creationParams = <String, dynamic>{};
 
-    return AndroidView(
-      viewType: viewType,
-      onPlatformViewCreated: _onPlatformViewCreated,
-      creationParams: creationParams,
-      creationParamsCodec: const StandardMessageCodec(),
-    );
+    if (Platform.isAndroid) {
+      return AndroidView(
+        viewType: viewType,
+        onPlatformViewCreated: _onPlatformViewCreated,
+        creationParams: creationParams,
+        creationParamsCodec: const StandardMessageCodec(),
+      );
+    } else {
+      return UiKitView(
+        viewType: viewType,
+        onPlatformViewCreated: _onPlatformViewCreated,
+        creationParams: creationParams,
+        creationParamsCodec: const StandardMessageCodec(),
+      );
+    }
   }
 
   void _onPlatformViewCreated(int id) {
