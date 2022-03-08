@@ -1,4 +1,4 @@
-group 'com.dynamsoft.flutter_qrcode_scanner'
+group 'com.dynamsoft.flutter_camera_qrcode_scanner'
 version '1.0'
 
 buildscript {

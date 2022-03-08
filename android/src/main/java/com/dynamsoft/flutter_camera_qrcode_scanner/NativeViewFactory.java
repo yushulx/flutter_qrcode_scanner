@@ -1,4 +1,4 @@
-package com.dynamsoft.flutter_qrcode_scanner;
+package com.dynamsoft.flutter_camera_qrcode_scanner;
 
 import android.content.Context;
 import android.view.View;

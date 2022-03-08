@@ -1,6 +1,6 @@
-# flutter_qrcode_scanner_example
+# flutter_camera_qrcode_scanner_example
 
-Demonstrates how to use the flutter_qrcode_scanner plugin.
+Demonstrates how to use the flutter_camera_qrcode_scanner plugin.
 
 ## Getting Started
 

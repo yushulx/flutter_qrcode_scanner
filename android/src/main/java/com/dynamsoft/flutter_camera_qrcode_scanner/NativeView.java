@@ -1,4 +1,4 @@
-package com.dynamsoft.flutter_qrcode_scanner;
+package com.dynamsoft.flutter_camera_qrcode_scanner;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -42,7 +42,7 @@ class NativeView implements PlatformView, MethodCallHandler, Application.Activit
         qrCodeScanner = new QRCodeScanner(context, cameraView);
         qrCodeScanner.setDetectionHandler(this);
 
-        methodChannel = new MethodChannel(messenger, "com.dynamsoft.flutter_qrcode_scanner/nativeview_" + id);
+        methodChannel = new MethodChannel(messenger, "com.dynamsoft.flutter_camera_qrcode_scanner/nativeview_" + id);
         methodChannel.setMethodCallHandler(this);
     }
 

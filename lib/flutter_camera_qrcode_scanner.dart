@@ -26,7 +26,8 @@ class _ScannerViewState extends State<ScannerView> {
 
   @override
   Widget build(BuildContext context) {
-    const String viewType = 'com.dynamsoft.flutter_qrcode_scanner/nativeview';
+    const String viewType =
+        'com.dynamsoft.flutter_camera_qrcode_scanner/nativeview';
     final Map<String, dynamic> creationParams = <String, dynamic>{};
 
     return AndroidView(
@@ -51,8 +52,8 @@ class ScannerViewController {
   Stream<List<BarcodeResult>> get scannedDataStream => _streamController.stream;
 
   ScannerViewController(int id) {
-    _channel =
-        MethodChannel('com.dynamsoft.flutter_qrcode_scanner/nativeview_$id');
+    _channel = MethodChannel(
+        'com.dynamsoft.flutter_camera_qrcode_scanner/nativeview_$id');
     _channel.setMethodCallHandler((call) async {
       switch (call.method) {
         case 'onDetected':
