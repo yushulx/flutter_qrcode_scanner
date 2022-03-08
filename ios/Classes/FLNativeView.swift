@@ -5,31 +5,26 @@ import DynamsoftCameraEnhancer
 
 class FLNativeView: NSObject, FlutterPlatformView, DBRTextResultDelegate {
     private var _view: UIView
+    private var channel: FlutterMethodChannel
     private var dceView: DCECameraView! = nil
     private var barcodeReader: DynamsoftBarcodeReader! = nil
     private var dce: DynamsoftCameraEnhancer! = nil
-    private var channel: FlutterMethodChannel! = nil
-
+    
     init(
         frame: CGRect,
         viewIdentifier viewId: Int64,
         arguments args: Any?,
-        binaryMessenger messenger: FlutterBinaryMessenger?
+        channel: FlutterMethodChannel
     ) {
-       
-         _view = UIView()
-        super.init()
-
         dceView = DCECameraView.init(frame: frame)
         dce = DynamsoftCameraEnhancer.init(view: dceView)
         dce.open()
         dce.setFrameRate(30)
         _view = dceView
-        createBarcodeReader(dce: dce)
-    }
+        self.channel = channel
+        super.init()
 
-    func getChannel() -> FlutterMethodChannel {
-        return self.channel
+        createBarcodeReader(dce: dce)
     }
 
     func view() -> UIView {
@@ -59,7 +54,8 @@ class FLNativeView: NSObject, FlutterPlatformView, DBRTextResultDelegate {
                 }
             }
             DispatchQueue.main.async {
-            
+                print(msgText)
+                self.channel.invokeMethod("onDetected", arguments: msgText)
             }
         }
     } 

@@ -2,10 +2,10 @@ import Flutter
 import UIKit
 
 class FLNativeViewFactory: NSObject, FlutterPlatformViewFactory {
-    private var messenger: FlutterBinaryMessenger
+    private var channel: FlutterMethodChannel
 
-    init(messenger: FlutterBinaryMessenger) {
-        self.messenger = messenger
+    init(channel: FlutterMethodChannel) {
+        self.channel = channel
         super.init()
     }
 
@@ -18,6 +18,7 @@ class FLNativeViewFactory: NSObject, FlutterPlatformViewFactory {
             frame: frame,
             viewIdentifier: viewId,
             arguments: args,
-            binaryMessenger: messenger)
+            channel: channel
+        )
     }
 }
