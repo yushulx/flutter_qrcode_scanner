@@ -41,9 +41,9 @@ class FLQRCodeScanner: NSObject, DBRTextResultDelegate {
 
     func textResultCallback(_ frameId: Int, results: [iTextResult]?, userData: NSObject?) {
         if results!.count > 0 {
-            let outResults = NSMutableArray(capacity: 8)
+            let outResults = NSMutableArray()
             for item in results! {
-                let subDic = NSMutableDictionary(capacity: 8)
+                let subDic = NSMutableDictionary()
                 if item.barcodeFormat_2 != EnumBarcodeFormat2.Null {
                     subDic.setObject(item.barcodeFormatString_2 ?? "", forKey: "format" as NSCopying)
                 }else{

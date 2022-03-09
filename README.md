@@ -5,6 +5,10 @@ A lightweight Flutter QR code scanner plugin implemented with [Dynamsoft Camera 
 - **Android**
 - **iOS**
 
+## Mobile Camera and Barcode SDK Version
+- Dynamsoft Camera Enhancer 2.1.1
+- Dynamsoft Barcode Reader 8.9.1
+
 ## Build Configuration
 
 ### Android
