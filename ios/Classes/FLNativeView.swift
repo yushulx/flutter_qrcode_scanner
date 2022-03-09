@@ -5,23 +5,44 @@ import DynamsoftCameraEnhancer
 
 class FLNativeView: NSObject, FlutterPlatformView, DBRTextResultDelegate {
     private var _view: UIView
-    private var channel: FlutterMethodChannel
     private var dceView: DCECameraView! = nil
     private var barcodeReader: DynamsoftBarcodeReader! = nil
     private var dce: DynamsoftCameraEnhancer! = nil
-    
+    private var messenger: FlutterBinaryMessenger
+    private var channel: FlutterMethodChannel
     init(
         frame: CGRect,
         viewIdentifier viewId: Int64,
         arguments args: Any?,
-        channel: FlutterMethodChannel
+        binaryMessenger: FlutterBinaryMessenger
     ) {
+        self.messenger = binaryMessenger
         dceView = DCECameraView.init(frame: frame)
         dce = DynamsoftCameraEnhancer.init(view: dceView)
         dce.open()
         dce.setFrameRate(30)
         _view = dceView
-        self.channel = channel
+
+        channel = FlutterMethodChannel(name: "com.dynamsoft.flutter_camera_qrcode_scanner/nativeview_" + String(viewId), binaryMessenger: messenger)
+        channel.setMethodCallHandler({
+        (call: FlutterMethodCall, result: @escaping FlutterResult) -> Void in
+            switch call.method {
+                case "startScanning":
+                    print("startScanning")
+                    result(.none)
+                case "stopScanning":
+                    print("stopScanning")
+                    result(.none)
+                case "setLicense":
+                    print("setLicense")
+                    result(.none)
+                case "setBarcodeFormats":
+                    print("setBarcodeFormats")
+                    result(.none)
+                default:
+                    result(.none)
+                }
+        })
         super.init()
 
         createBarcodeReader(dce: dce)
