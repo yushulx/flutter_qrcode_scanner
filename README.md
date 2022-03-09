@@ -3,15 +3,27 @@ A lightweight Flutter QR code scanner plugin implemented with [Dynamsoft Camera 
 
 ## Supported Platforms
 - **Android**
-
+- **iOS**
 
 ## Build Configuration
 
+### Android
 Change the minimum Android sdk version to 21 (or higher) and change the compile sdk version to 31 (or higher) in your `android/app/build.gradle` file.
 
 ```gradle
 minSdkVersion 21
 compileSdkVersion 31
+```
+
+### iOS
+
+Add camera access permission to `ios/Runner/Info.plist`:
+
+```xml
+<key>NSCameraUsageDescription</key>
+<string>Can I use the camera please?</string>
+<key>NSMicrophoneUsageDescription</key>
+<string>Can I use the mic please?</string>
 ```
 
 ## Try Real-time QR Code Scanning
