@@ -1,4 +1,4 @@
-package com.dynamsoft.flutter_qrcode_scanner;
+package com.dynamsoft.flutter_camera_qrcode_scanner;
 
 import androidx.annotation.NonNull;
 
@@ -15,9 +15,9 @@ import android.app.Application;
 import android.os.Bundle;
 import io.flutter.plugin.common.EventChannel;
 
-/** FlutterQrcodeScannerPlugin */
-public class FlutterQrcodeScannerPlugin implements FlutterPlugin, ActivityAware {
-  private static final String TAG = "FlutterQrcodeScannerPlugin";
+/** FlutterCameraQrcodeScannerPlugin */
+public class FlutterCameraQrcodeScannerPlugin implements FlutterPlugin, ActivityAware {
+  private static final String TAG = "FlutterCameraQrcodeScannerPlugin";
   private Activity activity;
   private FlutterPluginBinding flutterPluginBinding;
 
@@ -29,7 +29,7 @@ public class FlutterQrcodeScannerPlugin implements FlutterPlugin, ActivityAware 
   private void bind(ActivityPluginBinding activityPluginBinding) {
     activity = activityPluginBinding.getActivity();
     flutterPluginBinding.getPlatformViewRegistry().registerViewFactory(
-        "com.dynamsoft.flutter_qrcode_scanner/nativeview",
+        "com.dynamsoft.flutter_camera_qrcode_scanner/nativeview",
         new NativeViewFactory(flutterPluginBinding.getBinaryMessenger(), activity));
   }
 

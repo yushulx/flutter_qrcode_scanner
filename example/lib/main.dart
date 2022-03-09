@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:flutter_camera_qrcode_scanner/flutter_qrcode_scanner.dart';
+import 'package:flutter_camera_qrcode_scanner/flutter_camera_qrcode_scanner.dart';
 import 'package:flutter_camera_qrcode_scanner/dynamsoft_barcode.dart';
 
 void main() {

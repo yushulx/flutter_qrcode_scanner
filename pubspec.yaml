@@ -1,7 +1,7 @@
 name: flutter_camera_qrcode_scanner
 description: A lightweight Flutter widget for QR code scanning.
-version: 0.0.1
-homepage: https://github.com/yushulx/flutter_qrcode_scanner
+version: 1.0.0
+homepage: https://github.com/yushulx/flutter_camera_qrcode_scanner
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -28,8 +28,10 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.dynamsoft.flutter_qrcode_scanner
-        pluginClass: FlutterQrcodeScannerPlugin
+        package: com.dynamsoft.flutter_camera_qrcode_scanner
+        pluginClass: FlutterCameraQrcodeScannerPlugin
+      ios:
+        pluginClass: FlutterCameraQrcodeScannerPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:
