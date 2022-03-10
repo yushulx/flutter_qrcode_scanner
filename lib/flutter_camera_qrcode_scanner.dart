@@ -17,6 +17,7 @@ class ScannerView extends StatefulWidget {
   State<StatefulWidget> createState() => _ScannerViewState();
 }
 
+/// State of the [ScannerView].
 class _ScannerViewState extends State<ScannerView> {
   ScannerViewController? _controller;
 
@@ -48,6 +49,7 @@ class _ScannerViewState extends State<ScannerView> {
     }
   }
 
+  /// Platform view created callback.
   void _onPlatformViewCreated(int id) {
     _controller = ScannerViewController(id);
     widget.onScannerViewCreated(_controller!);
@@ -76,6 +78,7 @@ class ScannerViewController {
     });
   }
 
+  /// Dispose the controller.
   void dispose() {
     stopScanning();
     _streamController.close();

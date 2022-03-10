@@ -14,9 +14,11 @@ class BarcodeResult {
   final int y4;
   final int angle;
 
+  /// Constructor
   BarcodeResult(this.format, this.text, this.x1, this.y1, this.x2, this.y2,
       this.x3, this.y3, this.x4, this.y4, this.angle);
 
+  /// Constructs a [BarcodeResult] from a JSON map.
   BarcodeResult.fromJson(Map<dynamic, dynamic> json)
       : format = json['format'],
         text = json['text'],
@@ -30,6 +32,7 @@ class BarcodeResult {
         y4 = json['y4'],
         angle = json['angle'];
 
+  /// Constructs a [BarcodeResult] from a JSON map.
   BarcodeResult.fromMap(Map json)
       : format = json['format'],
         text = json['text'],
@@ -43,6 +46,7 @@ class BarcodeResult {
         y4 = json['y4'],
         angle = json['angle'];
 
+  /// Returns a JSON map containing all the information of the [BarcodeResult].
   Map<String, dynamic> toJson() => {
         'format': format,
         'text': text,

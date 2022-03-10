@@ -1,3 +1,7 @@
+## 1.0.1
+* Improved documentation.
+
+
 ## 1.0.0
 * Support both Android and iOS development.
 * Update Dynamsoft Camera Enhancer to 2.1.1.
