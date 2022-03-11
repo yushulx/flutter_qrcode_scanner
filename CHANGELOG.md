@@ -1,6 +1,8 @@
+## 1.0.2
+* Fixed coordinate error for iOS.
+
 ## 1.0.1
 * Improved documentation.
-
 
 ## 1.0.0
 * Support both Android and iOS development.
