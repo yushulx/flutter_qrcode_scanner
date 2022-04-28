@@ -9,11 +9,15 @@ public protocol DetectionHandler {
 
 class FLQRCodeScanner: NSObject, DBRTextResultListener  {
 
-    private var cameraView: DCECameraView != nil
-    private var dce: DynamsoftCameraEnhancer != nil
-    private var barcodeReader: DynamsoftBarcodeReader != nil
+    private var cameraView: DCECameraView! = nil
+    private var dce: DynamsoftCameraEnhancer! = nil
+    private var barcodeReader: DynamsoftBarcodeReader! = nil
     private var handler: DetectionHandler?
-
+    
+    override init() {
+        super.init()
+    }
+    
     func initScanner(cameraView: DCECameraView, dce: DynamsoftCameraEnhancer) {
         self.cameraView = cameraView
         self.cameraView.overlayVisible = true
@@ -32,10 +36,10 @@ class FLQRCodeScanner: NSObject, DBRTextResultListener  {
         barcodeReader.setCameraEnhancer(dce)
 
         // Set text result call back to get barcode results.
-        barcodeReader.setDBRTextResultListener(self, userData: nil)
+        barcodeReader.setDBRTextResultListener(self)
     }
 
-    func textResultCallback(_ frameId: Int, ImageData: iImageData, results: [iTextResult]?) {
+    func textResultCallback(_ frameId: Int, imageData: iImageData, results: [iTextResult]?) {
         if results!.count > 0 {
             let outResults = NSMutableArray()
             for item in results! {
@@ -66,13 +70,13 @@ class FLQRCodeScanner: NSObject, DBRTextResultListener  {
     } 
 
     func startScan() {
-        dce.startScanning();
+        dce.open();
         cameraView.overlayVisible = true
         barcodeReader.startScanning()
     }
 
     func stopScan() {
-        dce.stopScanning();
+        dce.close();
         cameraView.overlayVisible = false
         barcodeReader.stopScanning()
     }
@@ -81,7 +85,7 @@ class FLQRCodeScanner: NSObject, DBRTextResultListener  {
         let formats:Int = arg.value(forKey: "formats") as! Int
         let settings = try! barcodeReader!.getRuntimeSettings()
         settings.barcodeFormatIds = formats
-        barcodeReader!.update(settings, error: nil)
+        try? barcodeReader!.updateRuntimeSettings(settings)
     }
 
     func setLicense(license: String, verificationDelegate: DBRLicenseVerificationListener) {

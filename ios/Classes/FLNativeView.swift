@@ -22,7 +22,7 @@ class FLNativeView: NSObject, FlutterPlatformView, DetectionHandler, DBRLicenseV
         dce = DynamsoftCameraEnhancer.init(view: cameraView)
         _view = cameraView
 
-        qrCodeScanner = FLQRCodeScanner()
+        qrCodeScanner = FLQRCodeScanner.init()
 
         channel = FlutterMethodChannel(name: "com.dynamsoft.flutter_camera_qrcode_scanner/nativeview_" + String(viewId), binaryMessenger: messenger)
         
@@ -33,7 +33,7 @@ class FLNativeView: NSObject, FlutterPlatformView, DetectionHandler, DBRLicenseV
         (call: FlutterMethodCall, result: @escaping FlutterResult) -> Void in
             switch call.method {
                 case "init":
-                    self.qrCodeScanner.initScanner(cameraView: cameraView, dce: dce)
+                self.qrCodeScanner.initScanner(cameraView: self.cameraView, dce: self.dce)
                     result(.none)
                 case "startScanning":
                     self.qrCodeScanner.startScan()
@@ -42,7 +42,7 @@ class FLNativeView: NSObject, FlutterPlatformView, DetectionHandler, DBRLicenseV
                     self.qrCodeScanner.stopScan()
                     result(.none)
                 case "setLicense":
-                    completionHandlers.append(result)
+                    self.completionHandlers.append(result)
                     self.qrCodeScanner.setLicense(license: (call.arguments as! NSDictionary).value(forKey: "license") as! String, verificationDelegate: self)
                 case "setBarcodeFormats":
                     self.qrCodeScanner.setBarcodeFormats(arg: call.arguments as! NSDictionary)
