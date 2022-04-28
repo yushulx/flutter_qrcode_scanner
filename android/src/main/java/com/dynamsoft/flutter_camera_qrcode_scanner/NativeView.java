@@ -39,7 +39,7 @@ class NativeView implements PlatformView, MethodCallHandler, Application.Activit
         context.getApplication().registerActivityLifecycleCallbacks(this);
         
         cameraView = new DCECameraView(context);
-        qrCodeScanner = new QRCodeScanner(context, cameraView);
+        qrCodeScanner = new QRCodeScanner();
         qrCodeScanner.setDetectionHandler(this);
 
         methodChannel = new MethodChannel(messenger, "com.dynamsoft.flutter_camera_qrcode_scanner/nativeview_" + id);
@@ -59,6 +59,10 @@ class NativeView implements PlatformView, MethodCallHandler, Application.Activit
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
         switch (call.method) {
+        case "init":
+            qrCodeScanner.init(context, cameraView);
+            result.success(null);
+            break;
         case "startScanning":
             qrCodeScanner.startScan();
             result.success(null);
@@ -69,8 +73,7 @@ class NativeView implements PlatformView, MethodCallHandler, Application.Activit
             break;
         case "setLicense":
             final String license = call.argument("license");
-            qrCodeScanner.setLicense(license);
-            result.success(null);
+            qrCodeScanner.setLicense(license, result);
             break;
         case "setBarcodeFormats":
             final int formats = call.argument("formats");

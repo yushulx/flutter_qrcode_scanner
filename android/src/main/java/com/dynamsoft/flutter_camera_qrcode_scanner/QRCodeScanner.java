@@ -37,7 +37,7 @@ public class QRCodeScanner {
         public void onDetected(List<Map<String, Object>> data);
     }
 
-    public QRCodeScanner(Activity context, DCECameraView cameraView) {
+    public void init(Activity context, DCECameraView cameraView) {
         this.context = context;
         this.cameraView = cameraView;
         mCameraEnhancer = new CameraEnhancer(context);
@@ -122,11 +122,14 @@ public class QRCodeScanner {
         }
     }
 
-    public void setLicense(String license) {
-        try {
-            reader.initLicense(license);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void setLicense(String license, final Result result) {
+        BarcodeReader.initLicense(
+            license,
+                new DBRLicenseVerificationListener() {
+                    @Override
+                    public void DBRLicenseVerificationCallback(boolean isSuccessful, Exception e) {
+                        result.success("");
+                    }
+                });
     }
 }

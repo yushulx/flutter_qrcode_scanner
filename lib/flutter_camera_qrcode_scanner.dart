@@ -106,4 +106,9 @@ class ScannerViewController {
     return await _channel
         .invokeMethod('setBarcodeFormats', {'formats': formats});
   }
+
+  /// Initialize barcode and QR code scanner object.
+  Future<void> init() async {
+    await _channel.invokeMethod('init');
+  }
 }
