@@ -7,18 +7,17 @@ public protocol DetectionHandler {
         func onDetected(data: NSArray)
     }
 
-class FLQRCodeScanner: NSObject, DBRTextResultDelegate {
+class FLQRCodeScanner: NSObject, DBRTextResultListener  {
 
-    private var cameraView: DCECameraView
-    private var dce: DynamsoftCameraEnhancer
-    private var barcodeReader: DynamsoftBarcodeReader! = nil
+    private var cameraView: DCECameraView != nil
+    private var dce: DynamsoftCameraEnhancer != nil
+    private var barcodeReader: DynamsoftBarcodeReader != nil
     private var handler: DetectionHandler?
 
-    init(cameraView: DCECameraView, dce: DynamsoftCameraEnhancer) {
+    func initScanner(cameraView: DCECameraView, dce: DynamsoftCameraEnhancer) {
         self.cameraView = cameraView
         self.cameraView.overlayVisible = true
         self.dce = dce
-        super.init()
 
         createBarcodeReader(dce: dce)
     }
@@ -29,17 +28,14 @@ class FLQRCodeScanner: NSObject, DBRTextResultDelegate {
 
     func createBarcodeReader(dce: DynamsoftCameraEnhancer) {
         // To activate the sdk, apply for a license key: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr
-        barcodeReader = DynamsoftBarcodeReader.init(license: "license-key")
+        barcodeReader = DynamsoftBarcodeReader()
         barcodeReader.setCameraEnhancer(dce)
 
         // Set text result call back to get barcode results.
-        barcodeReader.setDBRTextResultDelegate(self, userData: nil)
-
-        // Start the barcode decoding thread.
-        barcodeReader.startScanning()
+        barcodeReader.setDBRTextResultListener(self, userData: nil)
     }
 
-    func textResultCallback(_ frameId: Int, results: [iTextResult]?, userData: NSObject?) {
+    func textResultCallback(_ frameId: Int, ImageData: iImageData, results: [iTextResult]?) {
         if results!.count > 0 {
             let outResults = NSMutableArray()
             for item in results! {
@@ -70,11 +66,13 @@ class FLQRCodeScanner: NSObject, DBRTextResultDelegate {
     } 
 
     func startScan() {
+        dce.startScanning();
         cameraView.overlayVisible = true
         barcodeReader.startScanning()
     }
 
     func stopScan() {
+        dce.stopScanning();
         cameraView.overlayVisible = false
         barcodeReader.stopScanning()
     }
@@ -86,7 +84,7 @@ class FLQRCodeScanner: NSObject, DBRTextResultDelegate {
         barcodeReader!.update(settings, error: nil)
     }
 
-    func setLicense(license: String) {
-        barcodeReader.license = license
+    func setLicense(license: String, verificationDelegate: DBRLicenseVerificationListener) {
+        DynamsoftBarcodeReader.initLicense(license, verificationDelegate: verificationDelegate)    
     }
 }
