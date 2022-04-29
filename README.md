@@ -1,13 +1,13 @@
 # Flutter QR Code Scanner
-A lightweight Flutter QR code scanner plugin implemented with [Dynamsoft Camera Enhancer](https://www.dynamsoft.com/camera-enhancer/docs/introduction/) and [Dynamsoft Barcode Reader](https://www.dynamsoft.com/barcode-reader/overview/).
+A lightweight Flutter barcode and QR code scanner plugin implemented with [Dynamsoft Camera Enhancer](https://www.dynamsoft.com/camera-enhancer/docs/introduction/) and [Dynamsoft Barcode Reader](https://www.dynamsoft.com/barcode-reader/overview/).
 
 ## Supported Platforms
 - **Android**
 - **iOS**
 
 ## Mobile Camera and Barcode SDK Version
-- Dynamsoft Camera Enhancer 2.1.1
-- Dynamsoft Barcode Reader 8.9.1
+- Dynamsoft Camera Enhancer 2.1.3
+- Dynamsoft Barcode Reader 9.0.1
 
 ## Build Configuration
 
@@ -54,15 +54,21 @@ flutter run
         });
       }
     ```
-- Use a [valid license](https://www.dynamsoft.com/customer/license/trialLicense?product=dbr) to activate QR code detection API. 
+- Get a [30-day trial license](https://www.dynamsoft.com/customer/license/trialLicense?product=dbr) to activate QR code detection API. 
     
     ```dart
-    controller.setLicense('LICENSE-KEY');
+    await controller.setLicense(
+        'DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==');
     ```
+- Initialize barcode and QR code scanner: 
+    
+    ```dart
+    await controller.init();
+    ```   
 
 - Use controller to start and stop real-time QR code scanning.
     
     ```dart
-    controller.startScanning();
-    controller.stopScanning();
+    await controller.startScanning();
+    await controller.stopScanning();
     ```

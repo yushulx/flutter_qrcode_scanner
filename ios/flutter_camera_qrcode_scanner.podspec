@@ -4,10 +4,10 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'flutter_camera_qrcode_scanner'
-  s.version          = '1.0.0'
-  s.summary          = 'A lightweight Flutter widget for QR code scanning.'
+  s.version          = '2.0.0'
+  s.summary          = 'A lightweight Flutter widget for barcode and QR code scanning.'
   s.description      = <<-DESC
-  A lightweight Flutter widget for QR code scanning.
+  A lightweight Flutter widget for barcode and QR code scanning.
                        DESC
   s.homepage         = 'https://github.com/yushulx/flutter_qrcode_scanner'
   s.license          = { :file => '../LICENSE' }

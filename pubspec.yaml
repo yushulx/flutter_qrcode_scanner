@@ -1,6 +1,6 @@
 name: flutter_camera_qrcode_scanner
 description: A lightweight Flutter camera widget for QR code scanning and barcode scanning, supporting Android and iOS.
-version: 1.0.2
+version: 2.0.0
 homepage: https://github.com/yushulx/flutter_qrcode_scanner
 
 environment:
