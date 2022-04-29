@@ -37,32 +37,29 @@ public class QRCodeScanner {
         public void onDetected(List<Map<String, Object>> data);
     }
 
-    public QRCodeScanner(Activity context, DCECameraView cameraView) {
+    public void init(Activity context, DCECameraView cameraView) {
         this.context = context;
         this.cameraView = cameraView;
         mCameraEnhancer = new CameraEnhancer(context);
         mCameraEnhancer.setCameraView(cameraView);
         cameraView.setOverlayVisible(true);
 
-        DCESettingParameters dceSettingParameters = new DCESettingParameters();
-        dceSettingParameters.cameraInstance = mCameraEnhancer;
-        dceSettingParameters.textResultCallback = mTextResultCallback;
-
         try {
             // mCameraEnhancer.open();
             reader = new BarcodeReader();
-            reader.SetCameraEnhancerParam(dceSettingParameters);
-            PublicRuntimeSettings settings = reader.getRuntimeSettings();
-            settings.barcodeFormatIds = EnumBarcodeFormat.BF_QR_CODE;
-            reader.updateRuntimeSettings(settings);
+            reader.setCameraEnhancer(mCameraEnhancer);
+            reader.setTextResultListener(mTextResultCallback);
+            // PublicRuntimeSettings settings = reader.getRuntimeSettings();
+            // settings.barcodeFormatIds = EnumBarcodeFormat.BF_QR_CODE;
+            // reader.updateRuntimeSettings(settings);
         } catch (Exception e) {
             // TODO: handle exception
         }
     }
 
-    TextResultCallback mTextResultCallback = new TextResultCallback() {
+    TextResultListener mTextResultCallback = new TextResultListener() {
         @Override
-        public void textResultCallback(int i, TextResult[] results, Object userData) {
+        public void textResultCallback(int i, ImageData imageData, TextResult[] results) {
             if (results != null) {
                 final List<Map<String, Object>> ret = new ArrayList<Map<String, Object>>();
                 for (TextResult result: results) {
@@ -94,9 +91,9 @@ public class QRCodeScanner {
 
     public void startScan() {
         try {
-            // mCameraEnhancer.open();
+            mCameraEnhancer.open();
             cameraView.setOverlayVisible(true);
-            reader.StartCameraEnhancer();
+            reader.startScanning();
         } catch (Exception e) {
             // TODO: handle exception
         }
@@ -104,9 +101,9 @@ public class QRCodeScanner {
 
     public void stopScan() {
         try {
-            // mCameraEnhancer.close();
+            mCameraEnhancer.close();
             cameraView.setOverlayVisible(false);
-            reader.StopCameraEnhancer();
+            reader.stopScanning();
         } catch (Exception e) {
             // TODO: handle exception
         }
@@ -125,11 +122,14 @@ public class QRCodeScanner {
         }
     }
 
-    public void setLicense(String license) {
-        try {
-            reader.initLicense(license);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void setLicense(String license, final Result result) {
+        BarcodeReader.initLicense(
+            license,
+                new DBRLicenseVerificationListener() {
+                    @Override
+                    public void DBRLicenseVerificationCallback(boolean isSuccessful, Exception e) {
+                        result.success("");
+                    }
+                });
     }
 }

@@ -1,12 +1,16 @@
 import Flutter
 import UIKit
+import DynamsoftBarcodeReader
 import DynamsoftCameraEnhancer
 
-class FLNativeView: NSObject, FlutterPlatformView, DetectionHandler {
+class FLNativeView: NSObject, FlutterPlatformView, DetectionHandler, DBRLicenseVerificationListener {
     private var _view: UIView
     private var messenger: FlutterBinaryMessenger
     private var channel: FlutterMethodChannel
     private var qrCodeScanner: FLQRCodeScanner
+    private var cameraView: DCECameraView
+    private var dce: DynamsoftCameraEnhancer
+    var completionHandlers: [FlutterResult] = []
     init(
         frame: CGRect,
         viewIdentifier viewId: Int64,
@@ -14,13 +18,18 @@ class FLNativeView: NSObject, FlutterPlatformView, DetectionHandler {
         binaryMessenger: FlutterBinaryMessenger
     ) {
         self.messenger = binaryMessenger
-        let cameraView = DCECameraView.init(frame: frame)
-        let dce = DynamsoftCameraEnhancer.init(view: cameraView)
-        dce.open()
-        dce.setFrameRate(30)
+
+        // The default frame CGRect is (0, 0, 0, 0).
+        if (frame.width == 0 || frame.height == 0) {
+            cameraView = DCECameraView.init(frame: UIScreen.main.bounds)
+        }
+        else {
+            cameraView = DCECameraView.init(frame: frame)
+        }
+        dce = DynamsoftCameraEnhancer.init(view: cameraView)
         _view = cameraView
 
-        qrCodeScanner = FLQRCodeScanner.init(cameraView: cameraView, dce: dce)
+        qrCodeScanner = FLQRCodeScanner.init()
 
         channel = FlutterMethodChannel(name: "com.dynamsoft.flutter_camera_qrcode_scanner/nativeview_" + String(viewId), binaryMessenger: messenger)
         
@@ -30,6 +39,9 @@ class FLNativeView: NSObject, FlutterPlatformView, DetectionHandler {
         channel.setMethodCallHandler({
         (call: FlutterMethodCall, result: @escaping FlutterResult) -> Void in
             switch call.method {
+                case "init":
+                self.qrCodeScanner.initScanner(cameraView: self.cameraView, dce: self.dce)
+                    result(.none)
                 case "startScanning":
                     self.qrCodeScanner.startScan()
                     result(.none)
@@ -37,8 +49,8 @@ class FLNativeView: NSObject, FlutterPlatformView, DetectionHandler {
                     self.qrCodeScanner.stopScan()
                     result(.none)
                 case "setLicense":
-                    self.qrCodeScanner.setLicense(license: (call.arguments as! NSDictionary).value(forKey: "license") as! String)
-                    result(.none)
+                    self.completionHandlers.append(result)
+                    self.qrCodeScanner.setLicense(license: (call.arguments as! NSDictionary).value(forKey: "license") as! String, verificationDelegate: self)
                 case "setBarcodeFormats":
                     self.qrCodeScanner.setBarcodeFormats(arg: call.arguments as! NSDictionary)
                     result(.none)
@@ -47,6 +59,11 @@ class FLNativeView: NSObject, FlutterPlatformView, DetectionHandler {
                 }
         })
     }
+
+    public func dbrLicenseVerificationCallback(_ isSuccess: Bool, error: Error?)
+    {
+        completionHandlers.first?(.none)
+    }  
 
     func view() -> UIView {
         return _view

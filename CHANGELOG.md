@@ -1,3 +1,8 @@
+## 2.0.0
+* Updated DBR SDK to v9.0.1.
+* Added `init()` method.
+* Updated example code. 
+
 ## 1.0.2
 * Fixed coordinate error for iOS.
 

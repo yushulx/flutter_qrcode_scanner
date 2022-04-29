@@ -74,12 +74,14 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  void onScannerViewCreated(ScannerViewController controller) {
+  void onScannerViewCreated(ScannerViewController controller) async {
     setState(() {
       this.controller = controller;
     });
-    controller.setLicense('LICENSE-KEY');
-    controller.startScanning(); // auto start scanning
+    await controller.setLicense(
+        'DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==');
+    await controller.init();
+    await controller.startScanning(); // auto start scanning
     controller.scannedDataStream.listen((results) {
       setState(() {
         _barcodeResults = getBarcodeResults(results);
