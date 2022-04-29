@@ -18,7 +18,14 @@ class FLNativeView: NSObject, FlutterPlatformView, DetectionHandler, DBRLicenseV
         binaryMessenger: FlutterBinaryMessenger
     ) {
         self.messenger = binaryMessenger
-        cameraView = DCECameraView.init(frame: frame)
+
+        // The default frame CGRect is (0, 0, 0, 0).
+        if (frame.width == 0 || frame.height == 0) {
+            cameraView = DCECameraView.init(frame: UIScreen.main.bounds)
+        }
+        else {
+            cameraView = DCECameraView.init(frame: frame)
+        }
         dce = DynamsoftCameraEnhancer.init(view: cameraView)
         _view = cameraView
 
